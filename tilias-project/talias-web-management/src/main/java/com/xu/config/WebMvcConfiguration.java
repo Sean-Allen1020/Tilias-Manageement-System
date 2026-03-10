@@ -17,6 +17,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     /**
      * 扩展Spring MVC框架的消息转换器
+     * 将LocalDateTime统一为特定格式给前端
      *
      * @param builder
      */

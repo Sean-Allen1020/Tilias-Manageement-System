@@ -5,6 +5,35 @@
     <select id="findAll" resultType="com.xu.pojo.Dept">
         select *
         from dept
-        order by update_time
+        order by create_time asc
     </select>
+    <delete id="deleteById">
+        delete
+        from dept
+        where id = #{id}
+    </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into dept
+            (name, create_time, update_time)
+        values (#{name}, #{createTime}, #{updateTime})
+    </insert>
+    <select id="getById" resultType="com.xu.pojo.Dept">
+        select *
+        from dept
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </select>
+    <update id="update">
+        update dept
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

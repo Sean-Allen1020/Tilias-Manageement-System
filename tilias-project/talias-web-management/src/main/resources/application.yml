@@ -21,4 +21,4 @@ mybatis:
     #开启驼峰命名
     map-underscore-to-camel-case: true
     #mybatis日志输出
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

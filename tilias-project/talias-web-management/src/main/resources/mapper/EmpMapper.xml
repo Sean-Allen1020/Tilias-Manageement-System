@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xu.mapper.EmpMapper">
+    <select id="empQuery" resultType="com.xu.pojo.Emp">
+        select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id
+        <where>
+            <if test="name != null and name !=''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="gender != null and gender != ''">
+                and gender = #{gender}
+            </if>
+            <if test="begin != null">
+                and entry_date &gt;= #{begin}
+            </if>
+            <if test="end != null">
+                and entry_date &lt;= #{end}
+            </if>
+        </where>
+    </select>
+    <insert id="insertEmp" useGeneratedKeys="true" keyProperty="id">
+        insert into emp
+        (username, name, gender, phone, job, salary, image, entry_date, dept_id, create_time, update_time)
+        values (#{username}, #{name}, #{gender}, #{phone}, #{job}, #{salary}, #{image}, #{entryDate}, #{deptId},
+                #{createTime}, #{updateTime})
+    </insert>
+    <insert id="batchInsertExpr">
+        insert into emp_expr
+        (emp_id, begin, end, company, job)
+        values
+        <foreach collection="exprList" item="expr" separator=",">
+            (#{expr.empId}, #{expr.begin}, #{expr.end}, #{expr.company}, #{expr.job})
+        </foreach>
+    </insert>
+</mapper>
