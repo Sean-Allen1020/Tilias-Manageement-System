@@ -2,9 +2,7 @@ package com.xu.mapper;
 
 import com.github.pagehelper.Page;
 import com.xu.aspect.AutoFill;
-import com.xu.pojo.Emp;
-import com.xu.pojo.EmpExprDTO;
-import com.xu.pojo.EmpPageQueryDTO;
+import com.xu.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,4 +30,39 @@ public interface EmpMapper {
      * @param exprList
      */
     void batchInsertExpr(List<EmpExprDTO> exprList);
+
+    /**
+     * 删除员工
+     * @param ids
+     */
+    void deleteById(List<Integer> ids);
+
+    /**
+     * 删除员工工作经历
+     * @param empIds
+     */
+    void deleteEmpExpr(List<Integer> empIds);
+
+    /**
+     * 根据id查询员工
+     * @param id
+     * @return
+     */
+    Emp getById(Integer id);
+
+    /**
+     * 根据id获取员工经历
+     * @param empId
+     * @return
+     */
+    List<EmpExpr> getEmpExprById(Integer empId);
+
+    /**
+     * 修改员工信息
+     * @param emp
+     */
+    @AutoFill(type = "update")
+    void update(Emp emp);
+
+
 }

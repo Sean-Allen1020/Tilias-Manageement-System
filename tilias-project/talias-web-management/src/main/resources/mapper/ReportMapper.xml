@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xu.mapper.ReportMapper">
+
+    <select id="getEmpJobData" resultType="com.xu.pojo.EmpReport">
+        select (case job
+                   when 1 then '班主任'
+                   when 2 then '讲师'
+                   when 3 then '学工主管'
+                   when 4 then '教研主管'
+                   when 5 then '咨询师'
+                   else '其它' end) job, count(id) data
+        from emp
+        group by job
+    </select>
+    <select id="getEmpGenderData" resultType="com.xu.pojo.EmpReport">
+        select (case gender
+                    when 1 then '男性员工'
+                    when 2 then '女性员工'
+                    else '其它' end) gender, count(id) value
+        from emp
+        group by gender
+    </select>
+</mapper>

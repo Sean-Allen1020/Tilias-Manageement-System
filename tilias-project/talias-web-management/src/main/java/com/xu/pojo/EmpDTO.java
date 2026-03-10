@@ -12,6 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 public class EmpDTO {
 
+    private Integer id;
+
     private String username; // 用户名
 
     private String name; // 姓名

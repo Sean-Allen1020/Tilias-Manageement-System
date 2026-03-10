@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -82,4 +83,6 @@ public class Emp implements Serializable {
      * 修改时间
      */
     private LocalDateTime updateTime;
+
+    private List<EmpExpr> exprList;
 }

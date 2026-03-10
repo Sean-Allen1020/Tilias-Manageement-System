@@ -21,4 +21,23 @@ public interface EmpService {
      * @param empDTO
      */
     void empAdd(EmpDTO empDTO);
+
+    /**
+     * 删除员工
+     * @param ids
+     */
+    void empDelete(List<Integer> ids);
+
+    /**
+     * 根据id查询员工
+     * @param empId
+     * @return
+     */
+    Emp getById(Integer empId);
+
+    /**
+     * 修改员工信息
+     * @param empDTO
+     */
+    void empUpdate(EmpDTO empDTO);
 }

@@ -25,6 +25,40 @@
         values (#{username}, #{name}, #{gender}, #{phone}, #{job}, #{salary}, #{image}, #{entryDate}, #{deptId},
                 #{createTime}, #{updateTime})
     </insert>
+    <update id="update">
+        update emp
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="job != null">
+                job = #{job},
+            </if>
+            <if test="salary != null">
+                salary = #{salary},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="entryDate != null">
+                entry_date = #{entryDate},
+            </if>
+            <if test="deptId != null">
+                dept_id = #{deptId},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        where id = #{id}
+    </update>
     <insert id="batchInsertExpr">
         insert into emp_expr
         (emp_id, begin, end, company, job)
@@ -33,4 +67,26 @@
             (#{expr.empId}, #{expr.begin}, #{expr.end}, #{expr.company}, #{expr.job})
         </foreach>
     </insert>
+    <delete id="deleteById">
+        delete from emp
+        where id in(
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+    <delete id="deleteEmpExpr">
+        delete from emp_expr
+        where emp_id in(
+        <foreach collection="empIds" item="empId" separator=",">
+            #{empId}
+        </foreach>
+        )
+    </delete>
+    <select id="getById" resultType="com.xu.pojo.Emp">
+        select * from emp where id = #{id}
+    </select>
+    <select id="getEmpExprById" resultType="com.xu.pojo.EmpExpr">
+        select * from emp_expr where emp_id = #{empId}
+    </select>
 </mapper>
