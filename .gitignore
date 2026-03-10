@@ -1,0 +1,7 @@
+tilias-project/**/target/
+tilias-project/.idea/
+tilias-project/*.iml
+*.class
+tilias-project/**/test/
+nginx-1.22.0-web/
+api接口文档.md
