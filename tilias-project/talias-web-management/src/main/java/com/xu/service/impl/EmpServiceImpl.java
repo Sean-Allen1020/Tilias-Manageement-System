@@ -12,6 +12,7 @@ import com.xu.service.EmpService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -45,6 +46,7 @@ public class EmpServiceImpl implements EmpService {
      *
      * @param empDTO
      */
+    @Transactional
     public void empAdd(EmpDTO empDTO) {
         // 设置默认入职时间为创建当天
         if (empDTO.getEntryDate() == null) {
