@@ -4,4 +4,5 @@ tilias-project/*.iml
 *.class
 tilias-project/**/test/
 nginx-1.22.0-web/logs/*
+nginx-1.22.0-web/temp/*
 api接口文档.md
