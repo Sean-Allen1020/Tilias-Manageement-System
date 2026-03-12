@@ -18,7 +18,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     /**
      * 扩展Spring MVC框架的消息转换器
      * 将LocalDateTime统一为特定格式给前端
-     *
+     * 或将前端特定格式的日期字符串，转换为 LocalDate系的日期类型
      * @param builder
      */
     public void configureMessageConverters(HttpMessageConverters.ServerBuilder builder) {

@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
  * 从Java对象生成JSON的过程称为 [序列化Java对象到JSON]
  *
  * Jackson序列化消息转换，将LocalDateTime统一为特定格式给前端
+ * 或者反之处理前端传来的日期字符串，将它转为日期类型
  */
 public class JacksonObjectMapper {
 
