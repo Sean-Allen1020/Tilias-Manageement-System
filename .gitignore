@@ -4,3 +4,4 @@ tilias-project/*.iml
 *.class
 tilias-project/**/test/
 api接口文档.md
+front-end/nginx-1.22.0-web/
