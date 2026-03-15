@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 // 引入组件，创建实例
 import IndexView from '@/views/index/index.vue'
 import ClazzView from '@/views/clazz/index.vue'
