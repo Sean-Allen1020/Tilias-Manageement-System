@@ -1,8 +1,8 @@
-import request from '@/utils/request.js'
+import request from '@/utils/request.js'    // 创建 request.js，也就是Result类的实例
 
 // 导出列表查询结果
 export const queryAllApi = () => {
-    return request.get('/depts');   // request中的基础地址与此处的地址拼接,传给前端服务器处理后,发送给后端
+    return request.get('/depts');   // request.js中的基础地址与此处的地址拼接,传给前端服务器处理后,发送给后端
 }
 
 // 新增

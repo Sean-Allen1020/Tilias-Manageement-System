@@ -77,6 +77,4 @@ public class EmpController {
         empService.empUpdate(empDTO);
         return Result.success();
     }
-
-
 }

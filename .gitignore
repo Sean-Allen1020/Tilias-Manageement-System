@@ -5,3 +5,5 @@ tilias-project/*.iml
 tilias-project/**/test/
 api接口文档.md
 front-end/nginx-1.22.0-web/
+
+tilias-project/talias-web-management/src/main/resources/application-dev.yml

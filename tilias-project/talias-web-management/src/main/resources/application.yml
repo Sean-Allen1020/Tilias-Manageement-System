@@ -3,6 +3,8 @@ server:
 
 
 spring:
+  profiles:
+    active: dev
   application:
     name: talias-web-management
 
@@ -22,3 +24,12 @@ mybatis:
     map-underscore-to-camel-case: true
     #mybatis日志输出
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+tilias:
+  aliyun:
+    endpoint: ${tilias.aliyun.endpoint}
+    bucket-name: ${tilias.aliyun.bucket-name}
+    region: ${tilias.aliyun.region}
+    access-key-id: ${tilias.aliyun.access-key-id}
+    access-key-secret: ${tilias.aliyun.access-key-secret}
+

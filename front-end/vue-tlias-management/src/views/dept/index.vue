@@ -11,6 +11,15 @@ onMounted(() => {  // 调用响应式函数onMounted，声明钩子函数
   search()
 })
 
+// 表单校验
+const rules = ref({
+  name: [
+    { required: true, message: '请输入部门名称', trigger: 'blur' },
+    { min: 2, max: 10, message: '名称字数不合法', trigger: 'blur' },
+  ]
+})
+const deptFormRef = ref()
+
 // 对话框状态
 const formTitle = ref('')   // 对话框标题
 const dialogFormVisible = ref(false)  // 对话框是否显示
@@ -112,15 +121,6 @@ const deleteById = async (id) => {
     })
 }
 
-// 表单校验
-const rules = ref({
-  name: [
-    { required: true, message: '请输入部门名称', trigger: 'blur' },
-    { min: 2, max: 10, message: '名称字数不合法', trigger: 'blur' },
-  ]
-})
-const deptFormRef = ref()
-
 
 </script>
 
@@ -135,7 +135,7 @@ const deptFormRef = ref()
 
   <!-- 数据表格 -->
   <div class="container">
-    <el-table :data="deptList" border style="width: 60%">
+    <el-table :data="deptList" border style="width: 100%">
       <el-table-column type="index" label="序号" width="100" align="center" />
       <el-table-column prop="name" label="部门名称" width="260" align="center" />
       <el-table-column prop="updateTime" label="最后操作时间" width="300" align="center" />

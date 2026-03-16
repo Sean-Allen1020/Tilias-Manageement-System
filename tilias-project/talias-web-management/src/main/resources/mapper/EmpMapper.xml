@@ -6,7 +6,7 @@
         select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id
         <where>
             <if test="name != null and name !=''">
-                and name like concat('%', #{name}, '%')
+                and e.name like concat('%', #{name}, '%')
             </if>
             <if test="gender != null and gender != ''">
                 and gender = #{gender}
