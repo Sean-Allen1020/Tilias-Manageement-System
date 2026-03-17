@@ -7,5 +7,20 @@ export const queryPageApi = (name, gender, begin, end, page, pageSize) => {
 
 // 新增
 export const addEmpApi = (emp) => {
-    return request.post('/emps', emp) // Json参数, 后端用 @RequestBody
+    return request.post('/emps', emp)   // Json参数, 后端用 @RequestBody
+}
+
+// 根据id查询
+export const queryInfoApi = (id) => {
+    return request.get(`/emps/${id}`)   // 路径参数,注意是用反引号括的, 后端用@PathVariable
+}
+
+// 修改
+export const updateEmpApi = (emp) => {
+    return request.put('/emps', emp)   // Json参数, 后端用 @RequestBody
+}
+
+// 删除
+export const deleteEmpApi = (ids) => {
+    return request.delete(`/emps?ids=${ids}`)
 }

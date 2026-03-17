@@ -1,8 +1,8 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { queryAllApi as queryAllDeptApi } from '@/api/dept.js'
-import { queryPageApi, addEmpApi } from '@/api/emp.js'
+import { queryPageApi, addEmpApi, queryInfoApi, updateEmpApi, deleteEmpApi } from '@/api/emp.js'
 
 // 钩子函数
 onMounted(() => {
@@ -40,7 +40,7 @@ watch(() => searchEmp.value.date, (newDate) => {
 
 // 控制弹窗
 const dialogVisible = ref(false)
-const dialogTitle = ref('新增员工')
+const dialogTitle = ref('')
 
 //员工对象参数
 const empList = ref([])
@@ -87,9 +87,10 @@ const clear = () => {
 }
 // 新增员工
 const addEmp = () => {
-  dialogVisible.value = true
   dialogTitle.value = '新增员工'
   employee.value = { username: '', name: '', gender: '', hone: '', job: '', salary: '', deptId: '', entryDate: '', image: '', exprList: [] }
+  if (empFormRef.value) empFormRef.value.resetFields()
+  dialogVisible.value = true
 }
 // 添加工作经历栏
 const addExprItem = () => {
@@ -113,19 +114,114 @@ const handleDateChange = (index) => {
     expr.end = ''
   }
 }
+
+//表单组件引用对象，用于校验表单
+const empFormRef = ref()
+// 根据id查询员工信息
+const edit = async (id) => {
+  const res = await queryInfoApi(id)
+  if (res.code) {
+    employee.value = res.data
+    dialogTitle.value = '修改员工信息'
+    if (empFormRef.value) empFormRef.value.resetFields()
+
+    // 对日期进行处理
+    let exprList = employee.value.exprList
+    if (exprList && exprList.length > 0) {
+      exprList.forEach((expr) => {
+        // 在 expr 中动态追加 date 属性，用于回显
+        expr.date = [expr.begin, expr.end]
+      })
+    }
+
+    dialogVisible.value = true
+  }
+}
 // 保存
 const save = async () => {
-  const res = await addEmpApi(employee.value)
+  // 校验表单状态
+  if (!empFormRef.value) return
+  try {
+    await empFormRef.value.validate()
+  } catch (e) {
+    ElMessage.error('输入信息非法')
+    return
+  }
+
+  let res
+  if (employee.value.id) {
+    // 修改员工
+    res = await updateEmpApi(employee.value)
+  } else {
+    // 新增员工
+    res = await addEmpApi(employee.value)
+  }
+
   if (res.code) {
     ElMessage.success('保存成功')
     dialogVisible.value = false
     search()
-  } else {
+  }
+  else {
+    // 失败提示
     ElMessage.error(res.msg)
   }
 }
+//表单校验规则
+const rules = ref({
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 2, max: 20, message: '用户名长度应在2到20个字符之间', trigger: 'blur' }
+  ],
+  name: [
+    { required: true, message: '请输入姓名', trigger: 'blur' },
+    { min: 2, max: 10, message: '姓名长度应在2到10个字符之间', trigger: 'blur' }
+  ],
+  gender: [
+    { required: true, message: '请选择性别', trigger: 'change' }
+  ],
+  phone: [
+    { required: true, message: '请输入手机号', trigger: 'blur' },
+    { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的手机号', trigger: 'blur' }
+  ],
+  salary: [
+    { required: true, message: '请输入公司', trigger: 'blur' },
+    { min: 1, trigger: 'blur' }
+  ]
+});
 
+// 根据id删除员工
+const deleteById = (id) => {
+  // 弹出确认框
+  ElMessageBox.confirm(
+    '是否确认删除员工?',
+    '警告',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {   // 确认后的回调函数
+      const res = await deleteEmpApi(id)
+      if (res.code) {
+        ElMessage({
+          type: 'success',
+          message: '员工已删除',
+        })
+        search()
+      } else {
+        ElMessage.message(res.msg)
+      }
 
+    })
+    .catch(() => {  // 取消后的回调函数
+      ElMessage({
+        type: 'info',
+        message: '取消删除',
+      })
+    })
+}
 
 //文件上传
 // 图片上传成功后触发
@@ -210,10 +306,10 @@ const beforeAvatarUpload = (rawFile) => {
       <el-table-column prop="updateTime" label="最后操作时间" width="200" value-format="YYYY-MM-DD HH:mm:ss" />
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button type="primary" size="small" @click=""><el-icon>
+          <el-button type="primary" size="small" @click="edit(scope.row.id)"><el-icon>
               <EditPen />
             </el-icon>编辑</el-button>
-          <el-button type="danger" size="small" @click=""><el-icon>
+          <el-button type="danger" size="small" @click="deleteById(scope.row.id)"><el-icon>
               <Delete />
             </el-icon>删除</el-button>
         </template>
@@ -230,18 +326,18 @@ const beforeAvatarUpload = (rawFile) => {
 
   <!-- 新增/修改员工对话框 -->
   <el-dialog v-model="dialogVisible" :title="dialogTitle">
-    <el-form :model="employee" label-width="80px">
+    <el-form :model="employee" label-width="80px" :rules="rules" ref="empFormRef">
       <!-- 基本信息 -->
       <!-- 第一行 -->
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="用户名">
+          <el-form-item label="用户名" prop="username">
             <el-input v-model="employee.username" placeholder="请输入员工用户名，2-20个字"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="姓名">
+          <el-form-item label="姓名" prop="name">
             <el-input v-model="employee.name" placeholder="请输入员工姓名，2-10个字"></el-input>
           </el-form-item>
         </el-col>
@@ -250,7 +346,7 @@ const beforeAvatarUpload = (rawFile) => {
       <!-- 第二行 -->
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="性别">
+          <el-form-item label="性别" prop="gender">
             <el-select v-model="employee.gender" placeholder="请选择性别" style="width: 100%;">
               <el-option v-for="g in genders" :key="g.value" :label="g.name" :value="g.value"></el-option>
             </el-select>
@@ -258,7 +354,7 @@ const beforeAvatarUpload = (rawFile) => {
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="手机号">
+          <el-form-item label="手机号" prop="phone">
             <el-input v-model="employee.phone" placeholder="请输入员工手机号"></el-input>
           </el-form-item>
         </el-col>
@@ -335,7 +431,13 @@ const beforeAvatarUpload = (rawFile) => {
         </el-col>
 
         <el-col :span="6">
-          <el-form-item size="small" label="公司" label-width="60px">
+          <el-form-item size="small" 
+          label="公司" 
+          :prop="'exprList.' + index + '.company'" 
+          :rules="[
+            { required: true, message: '请输入公司', trigger: 'blur' }
+          ]" 
+          label-width="60px">
             <el-input v-model="expr.company" placeholder="请输入公司名称"></el-input>
           </el-form-item>
         </el-col>

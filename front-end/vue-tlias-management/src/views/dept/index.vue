@@ -11,15 +11,6 @@ onMounted(() => {  // 调用响应式函数onMounted，声明钩子函数
   search()
 })
 
-// 表单校验
-const rules = ref({
-  name: [
-    { required: true, message: '请输入部门名称', trigger: 'blur' },
-    { min: 2, max: 10, message: '名称字数不合法', trigger: 'blur' },
-  ]
-})
-const deptFormRef = ref()
-
 // 对话框状态
 const formTitle = ref('')   // 对话框标题
 const dialogFormVisible = ref(false)  // 对话框是否显示
@@ -43,11 +34,29 @@ const search = async () => {
     deptList.value = res.data
   }
 }
+
+// 表单校验规则
+const rules = ref({
+  name: [
+    { required: true, message: '请输入部门名称', trigger: 'blur' },
+    { min: 2, max: 10, message: '名称字数不合法', trigger: 'blur' },
+  ]
+})
+
+//表单组件引用对象，用于校验表单
+const deptFormRef = ref()
 // 新增与修改
 const save = async () => {
+  // 校验表单状态
+  if (!deptFormRef.value) return
+  await deptFormRef.value.validate((valid) => {
+    if (!valid) {
+      ElMessage.error('输入非法信息')
+      return
+    }
+  })
 
   let res
-
   if (dept.value.id) {
     // 修改
     res = await updateApi(dept.value)
@@ -55,27 +64,24 @@ const save = async () => {
     // 新增
     res = await addApi(dept.value)
   }
-  //表单校验
-  if (!deptFormRef.value) return
-  await deptFormRef.value.validate((valid) => {
-    if (valid) {  // 提交成功
-      if (res.code) {
-        // 成功提示
-        ElMessage.success("操作成功")
-        // 关闭对话框
-        dialogFormVisible.value = false
-        // 查询
-        search()
-      }
-      else {
-        // 失败提示
-        ElMessage.error(res.msg)
-      }
-    } else {
-      ElMessage.error("输入信息非法")
+
+  if (valid) {  // 校验成功
+    if (res.code) {
+      // 成功提示
+      ElMessage.success("操作成功")
+      // 关闭对话框
+      dialogFormVisible.value = false
+      // 查询
+      search()
     }
-  })
+    else {
+      // 失败提示
+      ElMessage.error(res.msg)
+    }
+
+  }
 }
+
 // 根据id查询部门(编辑按钮)
 const edit = async (id) => {
   const res = await queryByIdApi(id)
@@ -108,7 +114,7 @@ const deleteById = async (id) => {
           message: '部门已删除',
         })
         search()
-      }else{
+      } else {
         ElMessage.message(res.msg)
       }
 
