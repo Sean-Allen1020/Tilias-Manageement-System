@@ -1,8 +1,8 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { queryPageApi } from '@/api/emp.js'
 import { queryAllApi as queryAllDeptApi } from '@/api/dept.js'
+import { queryPageApi, addEmpApi } from '@/api/emp.js'
 
 // 钩子函数
 onMounted(() => {
@@ -89,13 +89,48 @@ const clear = () => {
 const addEmp = () => {
   dialogVisible.value = true
   dialogTitle.value = '新增员工'
+  employee.value = { username: '', name: '', gender: '', hone: '', job: '', salary: '', deptId: '', entryDate: '', image: '', exprList: [] }
 }
+// 添加工作经历栏
+const addExprItem = () => {
+  // .push 方法，用于为数组尾部添加一个元素
+  employee.value.exprList.push({ company: '', job: '', begin: '', end: '', date: [] })
+}
+// 删除工作经历栏
+const delExprItem = (index) => {
+  employee.value.exprList.splice(index, 1)
+}
+// 通过 @change事件，检查date属性的变化，为begin，end赋值
+const handleDateChange = (index) => {
+  const expr = employee.value.exprList[index]
+  const date = expr.date
+
+  if (date && date.length == 2) {
+    expr.begin = date[0]
+    expr.end = date[1]
+  } else {
+    expr.begin = ''
+    expr.end = ''
+  }
+}
+// 保存
+const save = async () => {
+  const res = await addEmpApi(employee.value)
+  if (res.code) {
+    ElMessage.success('保存成功')
+    dialogVisible.value = false
+    search()
+  } else {
+    ElMessage.error(res.msg)
+  }
+}
+
 
 
 //文件上传
 // 图片上传成功后触发
 const handleAvatarSuccess = (response) => {
-  console.log(response);
+  employee.value.image = response.data
 }
 // 文件上传之前触发
 const beforeAvatarUpload = (rawFile) => {
@@ -251,7 +286,7 @@ const beforeAvatarUpload = (rawFile) => {
           <el-form-item label="所属部门">
             <el-select v-model="employee.deptId" placeholder="请选择部门" style="width: 100%;">
               <el-option v-for="d in depts" :key="d.id" :label="d.name" :value="d.id"></el-option>
-              
+
             </el-select>
           </el-form-item>
         </el-col>
@@ -284,35 +319,36 @@ const beforeAvatarUpload = (rawFile) => {
       <el-row :gutter="10">
         <el-col :span="24">
           <el-form-item label="工作经历">
-            <el-button type="success" size="small" @click="">+ 添加工作经历</el-button>
+            <el-button type="success" size="small" @click="addExprItem">+ 添加工作经历</el-button>
           </el-form-item>
         </el-col>
       </el-row>
 
       <!-- 第七行 ...  工作经历 -->
-      <el-row :gutter="3">
+      <el-row :gutter="3" v-for="(expr, index) in employee.exprList">
         <el-col :span="10">
           <el-form-item size="small" label="时间" label-width="80px">
-            <el-date-picker type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-              format="YYYY-MM-DD" value-format="YYYY-MM-DD"></el-date-picker>
+            <el-date-picker v-model=expr.date type="daterange" @change="handleDateChange(index)" range-separator="至"
+              start-placeholder="开始日期" end-placeholder="结束日期" format="YYYY-MM-DD"
+              value-format="YYYY-MM-DD"></el-date-picker>
           </el-form-item>
         </el-col>
 
         <el-col :span="6">
           <el-form-item size="small" label="公司" label-width="60px">
-            <el-input placeholder="请输入公司名称"></el-input>
+            <el-input v-model="expr.company" placeholder="请输入公司名称"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="6">
           <el-form-item size="small" label="职位" label-width="60px">
-            <el-input placeholder="请输入职位"></el-input>
+            <el-input v-model="expr.job" placeholder="请输入职位"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="2">
           <el-form-item size="small" label-width="0px">
-            <el-button type="danger">- 删除</el-button>
+            <el-button type="danger" @click="delExprItem(index)">- 删除</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -322,7 +358,7 @@ const beforeAvatarUpload = (rawFile) => {
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="">保存</el-button>
+        <el-button type="primary" @click="save">保存</el-button>
       </span>
     </template>
   </el-dialog>

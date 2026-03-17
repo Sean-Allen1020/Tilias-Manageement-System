@@ -42,7 +42,7 @@ public class AliOssUtil {
         String fileName = UUID.randomUUID() + extension;
 
         // 3. 可选：生成文件夹名，这里用日期
-        String dir = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
+        String dir = "tilias-management/" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
         // 4. 组装object名
         String objectName = dir + "/" + fileName;
 
