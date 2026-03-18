@@ -1,12 +1,10 @@
 package com.xu.controller;
 
-import com.xu.pojo.Emp;
-import com.xu.pojo.EmpDTO;
-import com.xu.pojo.EmpPageQueryDTO;
+import com.xu.pojo.dto.EmpDTO;
+import com.xu.pojo.dto.EmpPageQueryDTO;
 import com.xu.result.Result;
 import com.xu.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

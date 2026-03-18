@@ -1,7 +1,7 @@
 package com.xu.service.impl;
 
 import com.xu.mapper.DeptMapper;
-import com.xu.pojo.Dept;
+import com.xu.pojo.entity.Dept;
 import com.xu.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

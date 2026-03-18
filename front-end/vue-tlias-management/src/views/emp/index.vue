@@ -183,10 +183,6 @@ const rules = ref({
   phone: [
     { required: true, message: '请输入手机号', trigger: 'blur' },
     { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的手机号', trigger: 'blur' }
-  ],
-  salary: [
-    { required: true, message: '请输入公司', trigger: 'blur' },
-    { min: 1, trigger: 'blur' }
   ]
 });
 
@@ -205,21 +201,49 @@ const deleteById = (id) => {
     .then(async () => {   // 确认后的回调函数
       const res = await deleteEmpApi(id)
       if (res.code) {
-        ElMessage({
-          type: 'success',
-          message: '员工已删除',
-        })
+        ElMessage.success('员工已删除')
         search()
       } else {
         ElMessage.message(res.msg)
       }
-
     })
     .catch(() => {  // 取消后的回调函数
-      ElMessage({
-        type: 'info',
-        message: '取消删除',
-      })
+      ElMessage.info('取消删除')
+    })
+}
+// 批量删除员工
+const ids = ref([])
+const handleSelectionChange = (rows) => {
+  // 监听 @selection-change 事件，获取行数组，再通过 .map()方法，获取数组对象中的指定属性
+  ids.value = rows.map(row => row.id)
+}
+
+const batchDelete = () => {
+  if (ids.value.length == 0) {
+    ElMessage.warning('请选择员工')
+    return
+  }
+  // 弹出确认框
+  ElMessageBox.confirm(
+    '是否删除员工?',
+    '警告',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {   // 确认后的回调函数
+      const res = await deleteEmpApi(ids.value)
+      if (res.code) {
+        ElMessage.success('员工已删除')
+        search()
+      } else {
+        ElMessage.message(res.msg)
+      }
+    })
+    .catch(() => {  // 取消后的回调函数
+      ElMessage.info('取消删除')
     })
 }
 
@@ -272,13 +296,13 @@ const beforeAvatarUpload = (rawFile) => {
   <!-- 功能按钮 -->
   <div class="container">
     <el-button type="primary" @click="addEmp">+ 新增员工</el-button>
-    <el-button type="danger" @click="">- 批量删除</el-button>
+    <el-button type="danger" @click="batchDelete">- 批量删除</el-button>
   </div>
 
   <!-- 员工表格 -->
   <div class="container">
     <el-table :data="empList" border :cell-style="{ textAlign: 'center' }"
-      :header-cell-style="{ 'text-align': 'center' }" style="width: 100%">
+      :header-cell-style="{ 'text-align': 'center' }" style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" />
       <el-table-column prop="name" label="姓名" width="120" />
       <el-table-column label="性别" width="100">
@@ -431,13 +455,9 @@ const beforeAvatarUpload = (rawFile) => {
         </el-col>
 
         <el-col :span="6">
-          <el-form-item size="small" 
-          label="公司" 
-          :prop="'exprList.' + index + '.company'" 
-          :rules="[
+          <el-form-item size="small" label="公司" :prop="'exprList.' + index + '.company'" :rules="[
             { required: true, message: '请输入公司', trigger: 'blur' }
-          ]" 
-          label-width="60px">
+          ]" label-width="60px">
             <el-input v-model="expr.company" placeholder="请输入公司名称"></el-input>
           </el-form-item>
         </el-col>

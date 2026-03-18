@@ -1,8 +1,8 @@
 package com.xu.service;
 
-import com.xu.pojo.Emp;
-import com.xu.pojo.EmpDTO;
-import com.xu.pojo.EmpPageQueryDTO;
+import com.xu.pojo.entity.Emp;
+import com.xu.pojo.dto.EmpDTO;
+import com.xu.pojo.dto.EmpPageQueryDTO;
 import com.xu.result.PageResult;
 
 import java.util.List;

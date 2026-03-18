@@ -1,6 +1,6 @@
 package com.xu.controller;
 
-import com.xu.pojo.Dept;
+import com.xu.pojo.entity.Dept;
 import com.xu.result.Result;
 import com.xu.service.DeptService;
 import lombok.extern.slf4j.Slf4j;

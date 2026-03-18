@@ -1,6 +1,6 @@
 package com.xu.mapper;
 
-import com.xu.pojo.EmpReport;
+import com.xu.pojo.entity.EmpReport;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

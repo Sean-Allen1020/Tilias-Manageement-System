@@ -1,9 +1,8 @@
 package com.xu.mapper;
 
 import com.xu.aspect.AutoFill;
-import com.xu.pojo.Dept;
+import com.xu.pojo.entity.Dept;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

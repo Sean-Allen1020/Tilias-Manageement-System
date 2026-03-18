@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xu.mapper.ReportMapper">
 
-    <select id="getEmpJobData" resultType="com.xu.pojo.EmpReport">
+    <select id="getEmpJobData" resultType="com.xu.pojo.entity.EmpReport">
         select (case job
                    when 1 then '班主任'
                    when 2 then '讲师'
@@ -14,7 +14,7 @@
         from emp
         group by job
     </select>
-    <select id="getEmpGenderData" resultType="com.xu.pojo.EmpReport">
+    <select id="getEmpGenderData" resultType="com.xu.pojo.entity.EmpReport">
         select (case gender
                     when 1 then '男性员工'
                     when 2 then '女性员工'

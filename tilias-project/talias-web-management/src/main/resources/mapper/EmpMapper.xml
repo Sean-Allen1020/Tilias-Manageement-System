@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xu.mapper.EmpMapper">
-    <select id="empQuery" resultType="com.xu.pojo.Emp">
+    <select id="empQuery" resultType="com.xu.pojo.entity.Emp">
         select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id
         <where>
             <if test="name != null and name !=''">
@@ -83,10 +83,10 @@
         </foreach>
         )
     </delete>
-    <select id="getById" resultType="com.xu.pojo.Emp">
+    <select id="getById" resultType="com.xu.pojo.entity.Emp">
         select * from emp where id = #{id}
     </select>
-    <select id="getEmpExprById" resultType="com.xu.pojo.EmpExpr">
+    <select id="getEmpExprById" resultType="com.xu.pojo.entity.EmpExpr">
         select * from emp_expr where emp_id = #{empId}
     </select>
 </mapper>

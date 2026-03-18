@@ -1,6 +1,6 @@
 package com.xu.service;
 
-import com.xu.pojo.Dept;
+import com.xu.pojo.entity.Dept;
 
 import java.util.List;
 

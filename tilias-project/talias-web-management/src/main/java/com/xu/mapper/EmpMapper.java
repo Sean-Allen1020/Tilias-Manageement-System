@@ -2,9 +2,11 @@ package com.xu.mapper;
 
 import com.github.pagehelper.Page;
 import com.xu.aspect.AutoFill;
-import com.xu.pojo.*;
+import com.xu.pojo.dto.EmpExprDTO;
+import com.xu.pojo.dto.EmpPageQueryDTO;
+import com.xu.pojo.entity.Emp;
+import com.xu.pojo.entity.EmpExpr;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
