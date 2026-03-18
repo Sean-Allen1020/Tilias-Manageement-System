@@ -75,4 +75,15 @@ public class EmpController {
         empService.empUpdate(empDTO);
         return Result.success();
     }
+
+    /**
+     * 获取所有员工信息
+     * @return
+     */
+    @GetMapping("/list")
+    public Result getAllEmp(){
+        log.info("获取所有员工信息");
+
+        return Result.success(empService.getAllEmp());
+    }
 }

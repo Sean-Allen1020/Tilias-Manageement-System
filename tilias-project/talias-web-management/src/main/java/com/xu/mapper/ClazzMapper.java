@@ -4,8 +4,7 @@ import com.github.pagehelper.Page;
 import com.xu.aspect.AutoFill;
 import com.xu.pojo.dto.ClazzPageQueryDTO;
 import com.xu.pojo.entity.Clazz;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -36,4 +35,18 @@ public interface ClazzMapper {
      */
     @Select("select * from clazz")
     List<Clazz> list();
+
+    /**
+     * 删除班级
+     * @param id
+     */
+    @Delete("delete from clazz where id = #{id}")
+    void deleteById(Integer id);
+
+    /**
+     * 添加班级
+     * @param clazz
+     */
+    @AutoFill(type = "insert")
+    void insertClazz(Clazz clazz);
 }

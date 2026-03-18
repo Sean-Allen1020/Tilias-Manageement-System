@@ -34,4 +34,16 @@ public interface ClazzService {
      * @return
      */
     List getAllClazz();
+
+    /**
+     * 删除班级
+     * @param id
+     */
+    void deleteById(Integer id);
+
+    /**
+     * 添加班级
+     * @param clazzDTO
+     */
+    void addClazz(ClazzDTO clazzDTO);
 }

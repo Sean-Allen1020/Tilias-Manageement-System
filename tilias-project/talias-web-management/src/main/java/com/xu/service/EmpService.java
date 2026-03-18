@@ -40,4 +40,9 @@ public interface EmpService {
      * @param empDTO
      */
     void empUpdate(EmpDTO empDTO);
+
+    /**
+     * 获取所有员工信息
+     */
+    List<Emp> getAllEmp();
 }

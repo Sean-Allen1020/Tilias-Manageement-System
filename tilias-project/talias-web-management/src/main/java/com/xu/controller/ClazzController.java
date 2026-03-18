@@ -62,4 +62,28 @@ public class ClazzController {
         log.info("查询所有班级信息");
         return Result.success(clazzService.getAllClazz());
     }
+
+    /**
+     * 删除班级
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public Result deleteClazz(@PathVariable Integer id){
+        log.info("删除班级: {}", id);
+        clazzService.deleteById(id);
+        return Result.success();
+    }
+
+    /**
+     * 添加班级
+     * @param clazzDTO
+     * @return
+     */
+    @PostMapping
+    public Result addClazz(@RequestBody ClazzDTO clazzDTO){
+        log.info("添加班级: {}", clazzDTO);
+        clazzService.addClazz(clazzDTO);
+        return Result.success();
+    }
 }

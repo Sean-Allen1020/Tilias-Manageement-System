@@ -7,6 +7,7 @@ import com.xu.pojo.dto.EmpPageQueryDTO;
 import com.xu.pojo.entity.Emp;
 import com.xu.pojo.entity.EmpExpr;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -66,5 +67,9 @@ public interface EmpMapper {
     @AutoFill(type = "update")
     void update(Emp emp);
 
-
+    /**
+     * 获取所有员工信息
+     */
+    @Select("select * from emp")
+    List<Emp> getAllEmp();
 }

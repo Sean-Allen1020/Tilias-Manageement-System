@@ -60,4 +60,23 @@ public class ClazzServiceImpl implements ClazzService {
     public List getAllClazz() {
         return clazzMapper.list();
     }
+
+    /**
+     * 删除班级
+     * @param id
+     */
+    public void deleteById(Integer id) {
+        clazzMapper.deleteById(id);
+    }
+
+    /**
+     * 添加班级
+     * @param clazzDTO
+     */
+    public void addClazz(ClazzDTO clazzDTO) {
+        Clazz clazz = new Clazz();
+        BeanUtils.copyProperties(clazzDTO, clazz);
+
+        clazzMapper.insertClazz(clazz);
+    }
 }

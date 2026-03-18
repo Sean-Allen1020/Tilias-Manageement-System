@@ -114,4 +114,11 @@ public class EmpServiceImpl implements EmpService {
             empMapper.batchInsertExpr(exprList);
         }
     }
+
+    /**
+     * 获取所有员工信息
+     */
+    public List<Emp> getAllEmp() {
+        return empMapper.getAllEmp();
+    }
 }
