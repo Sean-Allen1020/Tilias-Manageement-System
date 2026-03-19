@@ -95,6 +95,12 @@
             <version>2.3.3</version>
         </dependency>
         <!--        阿里云OSS依赖-完-->
+        <!-- JWT令牌依赖 -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.13.0</version>
+        </dependency>
         <!--        PageHelper-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>

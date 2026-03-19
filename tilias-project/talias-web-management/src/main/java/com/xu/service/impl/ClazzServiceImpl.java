@@ -2,7 +2,9 @@ package com.xu.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.xu.exception.BusinessException;
 import com.xu.mapper.ClazzMapper;
+import com.xu.mapper.StudentMapper;
 import com.xu.pojo.dto.ClazzDTO;
 import com.xu.pojo.dto.ClazzPageQueryDTO;
 import com.xu.pojo.entity.Clazz;
@@ -19,6 +21,8 @@ public class ClazzServiceImpl implements ClazzService {
 
     @Autowired
     ClazzMapper clazzMapper;
+    @Autowired
+    StudentMapper studentMapper;
 
     /**
      * 班级分页查询
@@ -66,6 +70,10 @@ public class ClazzServiceImpl implements ClazzService {
      * @param id
      */
     public void deleteById(Integer id) {
+        Integer count = studentMapper.countByClazzId(id);
+        if (count > 0) {
+            throw new BusinessException("班级与学员关联，无法删除");
+        }
         clazzMapper.deleteById(id);
     }
 

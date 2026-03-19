@@ -1,6 +1,7 @@
 package com.xu.handler;
 
 import com.xu.exception.BaseException;
+import com.xu.exception.BusinessException;
 import com.xu.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +17,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public Result exceptionHandler(BaseException e) {
         log.error("异常：{}", e.getMessage());
+        return Result.error(e.getMessage());
+    }
+
+    @ExceptionHandler
+    public Result exceptionHandler(BusinessException e) {
+        log.error("业务异常：{}", e.getMessage());
         return Result.error(e.getMessage());
     }
 

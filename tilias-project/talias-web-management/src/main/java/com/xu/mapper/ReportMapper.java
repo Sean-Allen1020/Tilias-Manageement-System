@@ -1,7 +1,9 @@
 package com.xu.mapper;
 
 import com.xu.pojo.entity.EmpReport;
+import com.xu.pojo.entity.StudentReport;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -18,4 +20,16 @@ public interface ReportMapper {
      * @return
      */
     List<EmpReport> getEmpGenderData();
+
+    /**
+     * 获取学员学位统计数据
+     * @return
+     */
+    List<StudentReport> getStudentDegreeData();
+
+    /**
+     * 获取学员学位统计数据
+     * @return
+     */
+    List<StudentReport> getStudentClazzData();
 }

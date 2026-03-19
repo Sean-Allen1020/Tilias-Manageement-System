@@ -23,7 +23,7 @@ mybatis:
     #开启驼峰命名
     map-underscore-to-camel-case: true
     #mybatis日志输出
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 tilias:
   aliyun:
@@ -32,4 +32,8 @@ tilias:
     region: ${tilias.aliyun.region}
     access-key-id: ${tilias.aliyun.access-key-id}
     access-key-secret: ${tilias.aliyun.access-key-secret}
+
+  jwt:
+    secret-key: ${tilias.jwt.secret-key}
+    ttl: ${tilias.jwt.ttl}
 

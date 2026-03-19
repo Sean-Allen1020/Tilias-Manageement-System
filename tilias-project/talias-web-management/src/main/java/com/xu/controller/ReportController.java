@@ -26,9 +26,33 @@ public class ReportController {
       return Result.success(reportService.getEmpJobData());
     }
 
+    /**
+     * 获取员工性别统计数据
+     * @return
+     */
     @GetMapping("/empGenderData")
     public Result empGenderData() {
         log.info("获取员工性别统计数据");
         return Result.success(reportService.getEmpGenderData());
+    }
+
+    /**
+     * 获取学员学位统计数据
+     * @return
+     */
+    @GetMapping("/studentDegreeData")
+    public Result studentDegreeData() {
+        log.info("获取学员学位统计数据");
+        return Result.success(reportService.getStudentDegreeData());
+    }
+
+    /**
+     * 获取学员班级统计数据
+     * @return
+     */
+    @GetMapping("/studentCountData")
+    public Result studentClazzData() {
+        log.info("获取学员班级统计数据");
+        return Result.success(reportService.getStudentClazzData());
     }
 }
