@@ -18,7 +18,7 @@
         select (case gender
                     when 1 then '男性员工'
                     when 2 then '女性员工'
-                    else '其它' end) gender, count(id) value
+                    else '其它' end) name, count(id) value
         from emp
         group by gender
     </select>

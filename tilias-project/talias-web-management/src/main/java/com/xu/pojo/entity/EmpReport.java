@@ -17,6 +17,6 @@ public class EmpReport implements Serializable {
     private Integer data;
 
     // 性别和对应的人数
-    private String gender;
+    private String name;
     private Integer value;
 }
