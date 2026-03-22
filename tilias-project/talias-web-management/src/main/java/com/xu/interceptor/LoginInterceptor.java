@@ -1,6 +1,7 @@
 package com.xu.interceptor;
 
 import com.xu.properties.JwtProperties;
+import com.xu.utils.BaseContant;
 import com.xu.utils.JwtUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -41,20 +42,21 @@ public class LoginInterceptor implements HandlerInterceptor {
             // 非Controller方法，则为静态资源，放行
             return true;
         }
-        log.info("拦截验证结束1");
         // 2. 从前端发送的请求头中获取token
         String token = request.getHeader("token");// 此处的 token 是依据前端来的，如果前端对令牌的变量名定义为其它的，则用其它的名字
         // 3. 对token判空
         if (token == null || token.isEmpty()) {
             // 向前端响应 401状态码
+            log.info("请求头未携带token");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
-        log.info("拦截验证结束2");
+
         // 4. 解析token，判断token合法性
         try {
             log.info("解析令牌: {}", token);
             Claims claims = JwtUtils.parseJwt(token, jwtProperties.getSecretKey());
+            BaseContant.setId((Integer) claims.get("id"));
 
             // 5. 拦截验证通过，放行
             log.info("令牌合法，放行");

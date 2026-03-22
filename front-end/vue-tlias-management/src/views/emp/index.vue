@@ -8,6 +8,7 @@ import { queryPageApi, addEmpApi, queryInfoApi, updateEmpApi, deleteEmpApi } fro
 onMounted(() => {
   search()
   queryAllDepts()
+  getToken()
 })
 
 // 元数据，用于下拉列表等数据的统一维护
@@ -248,6 +249,13 @@ const batchDelete = () => {
 }
 
 //文件上传
+const token = ref('')
+const getToken = () => {
+  const loginUser = JSON.parse(localStorage.getItem('loginUser'))
+  if(loginUser && loginUser.token){
+    token.value = loginUser.token
+  }
+}
 // 图片上传成功后触发
 const handleAvatarSuccess = (response) => {
   employee.value.image = response.data
@@ -422,7 +430,7 @@ const beforeAvatarUpload = (rawFile) => {
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="头像">
-            <el-upload class="avatar-uploader" action="/api/upload" :show-file-list="false"
+            <el-upload class="avatar-uploader" action="/api/upload" :headers="{ 'token': token }" :show-file-list="false"
               :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
               <img v-if="employee.image" :src="employee.image" class="avatar" />
               <el-icon v-else class="avatar-uploader-icon">

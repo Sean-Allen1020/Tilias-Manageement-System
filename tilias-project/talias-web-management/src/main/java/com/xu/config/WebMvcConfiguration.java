@@ -40,10 +40,10 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
      *
      * @param registry
      */
-//    public void addInterceptors(InterceptorRegistry registry) {
-//
-//        registry.addInterceptor(loginInterceptor)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/login");
-//    }
+    public void addInterceptors(InterceptorRegistry registry) {
+        log.info("开始注册拦截器...");
+        registry.addInterceptor(loginInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/login");
+    }
 }
