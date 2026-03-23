@@ -252,7 +252,7 @@ const batchDelete = () => {
 const token = ref('')
 const getToken = () => {
   const loginUser = JSON.parse(localStorage.getItem('loginUser'))
-  if(loginUser && loginUser.token){
+  if (loginUser && loginUser.token) {
     token.value = loginUser.token
   }
 }
@@ -326,12 +326,7 @@ const beforeAvatarUpload = (rawFile) => {
       <el-table-column prop="deptName" label="所属部门" width="120" />
       <el-table-column prop="job" label="职位">
         <template #default="scope">
-          <span v-if="scope.row.job == 1">班主任</span>
-          <span v-else-if="scope.row.job == 2">讲师</span>
-          <span v-else-if="scope.row.job == 3">学工主管</span>
-          <span v-else-if="scope.row.job == 4">教研主管</span>
-          <span v-else-if="scope.row.job == 5">咨询师</span>
-          <span v-else>其它</span>
+          <span>{{jobs.find(job => job.value === scope.row.job)?.name || ''}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="entryDate" label="入职时间" width="180" />
@@ -430,8 +425,8 @@ const beforeAvatarUpload = (rawFile) => {
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="头像">
-            <el-upload class="avatar-uploader" action="/api/upload" :headers="{ 'token': token }" :show-file-list="false"
-              :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" action="/api/upload" :headers="{ 'token': token }"
+              :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
               <img v-if="employee.image" :src="employee.image" class="avatar" />
               <el-icon v-else class="avatar-uploader-icon">
                 <Plus />
