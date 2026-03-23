@@ -5,6 +5,11 @@ export const queryPageApi = (name, gender, begin, end, page, pageSize) => {
     return request.get(`/emps?name=${name}&gender=${gender}&begin=${begin}&end=${end}&page=${page}&pageSize=${pageSize}`)
 }
 
+// 查询全部员工信息
+export const getAllEmpsApi = () => {
+    return request.get('/emps/list')
+}
+
 // 新增
 export const addEmpApi = (emp) => {
     return request.post('/emps', emp)   // Json参数, 后端用 @RequestBody

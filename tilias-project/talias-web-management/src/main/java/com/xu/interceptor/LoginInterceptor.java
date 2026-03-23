@@ -56,7 +56,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         try {
             log.info("解析令牌: {}", token);
             Claims claims = JwtUtils.parseJwt(token, jwtProperties.getSecretKey());
-            BaseContant.setId((Integer) claims.get("id"));
+            BaseContant.setId(Integer.parseInt(claims.get("id").toString()));
 
             // 5. 拦截验证通过，放行
             log.info("令牌合法，放行");
