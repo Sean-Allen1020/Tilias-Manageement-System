@@ -43,7 +43,7 @@ watch(() => searchEmp.value.date, (newDate) => {
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
 
-//员工对象参数
+//员工对象
 const empList = ref([])
 // 分页参数
 const currentPage = ref(1)  // 页码
