@@ -172,11 +172,11 @@ const save = async () => {
 const rules = ref({
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 2, max: 20, message: '用户名长度应在2到20个字符之间', trigger: 'blur' }
+    { min: 2, max: 20, message: '用户名长度应在2到20个字之间', trigger: 'blur' }
   ],
   name: [
     { required: true, message: '请输入姓名', trigger: 'blur' },
-    { min: 2, max: 10, message: '姓名长度应在2到10个字符之间', trigger: 'blur' }
+    { min: 2, max: 10, message: '姓名长度应在2到10个字之间', trigger: 'blur' }
   ],
   gender: [
     { required: true, message: '请选择性别', trigger: 'change' }
@@ -215,7 +215,7 @@ const deleteById = (id) => {
 // 批量删除员工
 const ids = ref([])
 const handleSelectionChange = (rows) => {
-  // 监听 @selection-change 事件，获取行数组，再通过 .map()方法，获取数组对象中的指定属性
+  // 监听 @selection-change 事件，获取行数组，再通过 .map()方法，将数组对象转换成指定属性的数组
   ids.value = rows.map(row => row.id)
 }
 
@@ -240,7 +240,7 @@ const batchDelete = () => {
         ElMessage.success('员工已删除')
         search()
       } else {
-        ElMessage.message(res.msg)
+        ElMessage.warning(res.msg)
       }
     })
     .catch(() => {  // 取消后的回调函数

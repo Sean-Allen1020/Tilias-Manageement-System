@@ -115,7 +115,7 @@ const deleteById = async (id) => {
         })
         search()
       } else {
-        ElMessage.message(res.msg)
+        ElMessage.warning(res.msg)
       }
 
     })

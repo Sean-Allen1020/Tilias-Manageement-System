@@ -64,7 +64,7 @@ const clear = () => {
 
 // 对话框
 const dialogVisible = ref(false)
-const dialogTitle = ref('新增班级')
+const dialogTitle = ref('')
 // 对话框表单 -- 班级
 const clazz = ref({ name: '', room: '', beginDate: '', endDate: '', masterId: null, subject: null })
 // 对话框表单 -- 校验
@@ -89,17 +89,18 @@ const rules = ref({
 const addClazz = () => {
   clazz.value = { name: '', room: '', beginDate: '', endDate: '', masterId: null, subject: null }
   if (clazzFormRef.value) clazzFormRef.value.resetFields()
+  dialogTitle.value = '新增班级'
   dialogVisible.value = true
 }
 // 更新班级
 const edit = async (id) => {
+  // 信息回显
   const res = await queryByIdApi(id)
   if (res.code) {
     clazz.value = res.data
   }
-
   if (clazzFormRef.value) clazzFormRef.value.resetFields()
-  dialogTitle.value = '修改班级'
+  dialogTitle.value = '修改班级信息'
   dialogVisible.value = true
 }
 
@@ -131,7 +132,7 @@ const save = async () => {
 // 删除
 const deleteClazz = async (id) => {
   ElMessageBox.confirm(
-    '是否确认删除员工?',
+    '是否确认删除班级?',
     '警告',
     {
       confirmButtonText: '确认',
@@ -142,20 +143,14 @@ const deleteClazz = async (id) => {
     .then(async () => {
       const res = await deleteClazzApi(id)
       if (res.code) {
-        ElMessage({
-          type: 'success',
-          message: '班级已删除',
-        })
+        ElMessage.success('班级已删除')
         search()
       } else {
-        ElMessage.message(res.msg)
+        ElMessage.warning(res.msg)
       }
     })
     .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: '取消删除',
-      })
+      ElMessage.info('取消删除')
     })
 }
 
@@ -229,7 +224,7 @@ const deleteClazz = async (id) => {
       </el-form-item>
 
       <!-- 第二行 -->
-      <el-form-item label="班级教师" prop="room" :label-width="formLabelWidth">
+      <el-form-item label="班级教室" prop="room" :label-width="formLabelWidth">
         <el-input v-model="clazz.room" placeholder="请填写教室编号"></el-input>
       </el-form-item>
 
