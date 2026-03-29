@@ -49,12 +49,12 @@ const deptFormRef = ref()
 const save = async () => {
   // 校验表单状态
   if (!deptFormRef.value) return
-  await deptFormRef.value.validate((valid) => {
-    if (!valid) {
-      ElMessage.error('输入非法信息')
-      return
-    }
-  })
+  try {
+    await deptFormRef.value.validate()
+  } catch (e) {
+    ElMessage.error('输入信息非法')
+    return
+  }
 
   let res
   if (dept.value.id) {
@@ -65,20 +65,17 @@ const save = async () => {
     res = await addApi(dept.value)
   }
 
-  if (valid) {  // 校验成功
-    if (res.code) {
-      // 成功提示
-      ElMessage.success("操作成功")
-      // 关闭对话框
-      dialogFormVisible.value = false
-      // 查询
-      search()
-    }
-    else {
-      // 失败提示
-      ElMessage.error(res.msg)
-    }
-
+  if (res.code) {
+    // 成功提示
+    ElMessage.success("保存成功")
+    // 关闭对话框
+    dialogFormVisible.value = false
+    // 查询
+    search()
+  }
+  else {
+    // 失败提示
+    ElMessage.error(res.msg)
   }
 }
 
