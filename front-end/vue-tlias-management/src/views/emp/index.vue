@@ -320,7 +320,7 @@ const beforeAvatarUpload = (rawFile) => {
       </el-table-column>
       <el-table-column label="头像" width="120">
         <template #default="scope">
-          <img :src="scope.row.image" alt="未知">
+          <img :src="scope.row.image" alt="未知" width="50px" height="50px">
         </template>
       </el-table-column>
       <el-table-column prop="deptName" label="所属部门" width="120" />
@@ -425,7 +425,7 @@ const beforeAvatarUpload = (rawFile) => {
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="头像">
-            <el-upload class="avatar-uploader" action="/api/upload" :headers="{ 'token': token }"
+            <el-upload class="avatar-uploader" action="/tilias/upload" :headers="{ 'token': token }"
               :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
               <img v-if="employee.image" :src="employee.image" class="avatar" />
               <el-icon v-else class="avatar-uploader-icon">
