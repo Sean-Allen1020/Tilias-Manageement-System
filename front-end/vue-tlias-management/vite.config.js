@@ -17,7 +17,7 @@ export default defineConfig({
     port: 7070, // 前端端口号
     proxy: {
       '/tilias': {   // 代理路径(唯一)
-        target: 'http://localhost:8080',  // 后端端口号
+        target: 'http://localhost:8081',  // 后端端口号
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/tilias/, '')   // 重写代理路径，防止后端接收到错误路径
       }

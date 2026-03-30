@@ -3,6 +3,7 @@ import { HomeFilled } from '@element-plus/icons-vue';
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'// 引入 router实例
 import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const name = ref('')
 // 从localStorage中取出登录信息
@@ -28,7 +29,7 @@ const logout = () => {
     .then(async () => {   // 确认后的回调函数
       ElMessage.success('退出成功')
       localStorage.removeItem('loginUser')  // 移除登录信息
-      useRouter().push('/login') // 跳转页面
+      router.push('/login') // 跳转页面
     })
 }
 
